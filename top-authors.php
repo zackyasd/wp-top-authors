@@ -38,21 +38,18 @@ class Top_Author extends WP_Widget {
         <?php echo $before_title . $top_author_title . $after_title; ?>
 <?php
     global $wpdb;
-    for( $i=7; $i >= 1; $i-- ) {
-        $this_week = 7 * $i;
-        $last_week = 7 * ( $i - 1);
-        
-        $top_authors = $wpdb->get_results("
-            SELECT u.ID, count(post_author) as posts FROM {$wpdb->posts} as p
-            LEFT JOIN {$wpdb->users} as u ON p.post_author = u.ID
-            WHERE p.post_status = 'publish'
-            AND p.post_type = 'property'
-            AND p.post_date > '" . date('Y-m-d H:i:s', strtotime('-' . $this_week . ' days')) . "' AND post_date < '" . date('Y-m-d H:i:s', strtotime('-' . $last_week . ' days')) . "'
-            GROUP by p.post_author
-            ORDER by posts DESC
-            LIMIT 0,$top_author_limit
-        ");
-    }
+    
+    $top_authors = $wpdb->get_results("
+        SELECT u.ID, count(post_author) as posts FROM {$wpdb->posts} as p
+        LEFT JOIN {$wpdb->users} as u ON p.post_author = u.ID
+        WHERE p.post_status = 'publish'
+        AND p.post_type = 'property'
+        AND p.post_date > '" . date('Y-m-d H:i:s', strtotime('-' . 7 . ' days')) . "'
+        GROUP by p.post_author
+        ORDER by posts DESC
+        LIMIT 0,$warrior_top_author_limit
+    ");
+    
     if( !empty( $top_authors ) ) {
         echo '<ul>';
         foreach( $top_authors as $key => $author ) :
