@@ -1,6 +1,8 @@
 # Wordpress Top Author Widget 
 Wordpress Top Author of the past few days Widget
 
+*this example top author of past 7 days
+
 
 --
 ** Changelog **
